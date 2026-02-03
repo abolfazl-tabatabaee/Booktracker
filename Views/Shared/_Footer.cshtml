@@ -1,0 +1,52 @@
+﻿<footer class="site-footer">
+    <div class="container footer-wrap">
+        <!-- Brand / About -->
+        <div class="footer-col">
+            <a class="footer-brand" asp-controller="Home" asp-action="Index">
+                <span class="footer-brand-icon">📚</span>
+                <span class="footer-brand-text">کتاب‌خانه</span>
+            </a>
+
+            <p class="footer-desc muted">
+                کتاب‌خانه یک کاتالوگ سبک برای مرور کتاب‌هاست؛ می‌تونی کتاب‌ها رو ببینی، امتیاز بدی و تجربه‌ات رو با یک نظر کوتاه ثبت کنی.
+                هدف ما ساده‌سازی انتخاب کتاب بعدی و کمک به تصمیم‌گیری بهتر با استفاده از نظر کاربران است.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-col">
+            <div class="footer-title">لینک‌های سریع</div>
+            <nav class="footer-links">
+                <a asp-controller="Home" asp-action="Index">کتاب‌ها</a>
+                <a asp-controller="Home" asp-action="About">درباره</a>
+                <a asp-controller="Home" asp-action="Contact">تماس</a>
+            </nav>
+        </div>
+
+        <!-- Contact -->
+        <div class="footer-col">
+            <div class="footer-title">ارتباط</div>
+
+            <div class="footer-info">
+                <div class="footer-info-row">
+                    <span class="footer-info-ic">✉️</span>
+                    <span class="muted">support@ketabkhane.local</span>
+                </div>
+
+                <div class="footer-info-row">
+                    <span class="footer-info-ic">📍</span>
+                    <span class="muted">Localhost / Demo Project</span>
+                </div>
+
+                <div class="footer-info-row">
+                    <span class="footer-info-ic">⏰</span>
+                    <span class="muted">شنبه تا چهارشنبه، ۹ تا ۱۷</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+        <span class="muted">© @DateTime.Now.Year کتاب‌خانه — همه حقوق محفوظ است</span>
+    </div>
+</footer>

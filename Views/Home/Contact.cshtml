@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "تماس با ما";
+    ViewData["Page"] = "contact";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/contact.css" />
+}
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-content">
+            <h1>ارتباط با ما</h1>
+            <p class="muted">
+                اگر پیشنهادی داری یا مشکلی دیدی، همین‌جا پیام بده. پاسخ از طریق ایمیل انجام می‌شه.
+            </p>
+
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="#contactForm">ارسال پیام</a>
+                <a class="btn btn-ghost" asp-controller="Home" asp-action="Index" asp-fragment="books">دیدن کتاب‌ها</a>
+            </div>
+        </div>
+
+        <!-- Small info card -->
+        <div class="hero-card" aria-hidden="true">
+            <div class="hero-stat">
+                <div class="stat-num">پشتیبانی</div>
+                <div class="stat-label">در ساعات اداری</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-num">پروژه دمو</div>
+                <div class="stat-label">Localhost</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-num">۲۴/۷</div>
+                <div class="stat-label">ثبت پیام</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<main class="container main">
+    <section class="contact-layout">
+        <!-- Form -->
+        <article class="surface surface-pad">
+            <div class="grid-head" style="margin:0 0 .9rem;">
+                <h2 class="section-title" id="contactForm">فرم تماس</h2>
+                <div class="muted">همه فیلدها اختیاری نیستند</div>
+            </div>
+
+            <form class="contact-form" id="contactFormEl" novalidate>
+                <div class="form-row">
+                    <div class="field">
+                        <label class="label" for="fullName">نام و نام‌خانوادگی</label>
+                        <input class="input" id="fullName" name="fullName" type="text" placeholder="ابوالفضل طباطبایی" />
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="email">ایمیل</label>
+                        <input class="input" id="email" name="email" type="email" placeholder="example@mail.com" />
+                        <div class="hint muted" id="emailHint" hidden>ایمیل معتبر وارد کنید.</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label class="label" for="subject">موضوع</label>
+                        <select class="select" id="subject" name="subject">
+                            <option value="suggestion">پیشنهاد</option>
+                            <option value="bug">گزارش مشکل</option>
+                            <option value="question">سوال</option>
+                            <option value="other">سایر</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="priority">اولویت</label>
+                        <select class="select" id="priority" name="priority">
+                            <option value="normal">معمولی</option>
+                            <option value="high">بالا</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label" for="message">متن پیام</label>
+                    <textarea class="textarea" id="message" name="message" rows="6" placeholder="پیام خود را اینجا بنویسید…"></textarea>
+                    <div class="hint muted">حداقل 10 کاراکتر پیشنهاد می‌شود.</div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" type="submit">ارسال پیام</button>
+                    <button class="btn btn-ghost" type="reset">پاک کردن</button>
+                </div>
+
+                <div class="toast" id="toast" hidden>
+                    ✅ پیام شما ثبت شد!
+                </div>
+            </form>
+        </article>
+
+        <!-- FAQ / Guide -->
+        <aside class="surface surface-pad">
+            <h2 class="section-title" style="margin:0 0 .8rem;">سوالات پرتکرار</h2>
+
+            <div class="faq">
+                <details class="faq-item" open>
+                    <summary>این پروژه واقعی است یا دمو؟</summary>
+                    <p class="muted">این یک پروژه آموزشی برای اجرا روی لوکال‌هاست؛ ارسال پیام فعلاً واقعی نیست.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>برای امتیازدهی و نظر دادن باید ثبت‌نام کنم؟</summary>
+                    <p class="muted">در نسخه کامل بله؛ در نسخه دمو ممکن است فقط نمایش داده شود.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>چه چیزهایی را بهتر است در پیام بنویسم؟</summary>
+                    <p class="muted">عنوان کتاب/صفحه، توضیح مشکل یا پیشنهاد، و اگر باگ است مراحل تکرار آن را بنویس.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>چقدر طول می‌کشد پاسخ بگیرم؟</summary>
+                    <p class="muted">برای پروژه دمو، پاسخ‌گویی شبیه‌سازی شده است؛ اما در حالت واقعی معمولاً 24 تا 48 ساعت.</p>
+                </details>
+            </div>
+
+            <div class="mini-guide">
+                <div class="mini-guide-title">راهنمای سریع ارسال پیام</div>
+                <ul class="mini-guide-list">
+                    <li>موضوع را انتخاب کن (پیشنهاد/سوال/باگ)</li>
+                    <li>اولویت را مشخص کن</li>
+                    <li>پیام را واضح و کوتاه بنویس</li>
+                    <li>ارسال را بزن ✅</li>
+                </ul>
+            </div>
+        </aside>
+    </section>
+</main>
+
+@section Scripts {
+    <script src="~/js/contact.js"></script>
+}

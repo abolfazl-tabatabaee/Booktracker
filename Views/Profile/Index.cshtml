@@ -1,0 +1,184 @@
+﻿@using System.Globalization
+@model bookTracker.Models.ViewModels.ProfileVm
+
+@{
+    ViewData["Title"] = "پروفایل";
+    ViewData["Page"] = "profile";
+
+    var fa = new CultureInfo("fa-IR");
+    string fmtDate(DateTime? dt)
+        => dt == null ? "—" : dt.Value.ToLocalTime().ToString("yyyy/MM/dd  HH:mm", fa);
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" />
+}
+
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-content">
+            <h1>پروفایل</h1>
+            <div class="muted" style="line-height:1.9;">
+                اطلاعات حساب کاربری و فعالیت‌های اخیر شما.
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(ViewBag.Success as string))
+            {
+                <div class="p-note p-note-ok">@ViewBag.Success</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(ViewBag.Error as string))
+            {
+                <div class="p-note p-note-err">@ViewBag.Error</div>
+            }
+
+            <div class="p-id">
+                <div class="p-name">@Model.FullName</div>
+                <div class="muted">@Model.Email</div>
+                <div class="p-badges">
+                    <span class="p-badge">Role: @Model.RoleName</span>
+                </div>
+            </div>
+        </div>
+
+        <aside class="hero-card">
+            <div class="hero-stat">
+                <div class="stat-num">@Model.Stats.TotalReviews</div>
+                <div class="stat-label">تعداد نظرات</div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="stat-num">@Model.Stats.AvgRatingGiven.ToString("0.0", fa)</div>
+                <div class="stat-label">میانگین امتیازهای شما</div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="stat-num">@Model.Stats.DistinctBooksReviewed</div>
+                <div class="stat-label">کتاب‌های نظر داده‌شده</div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="stat-num" style="font-size:1.02rem; font-weight:800;">
+                    @fmtDate(Model.Stats.LastActivityUtc)
+                </div>
+                <div class="stat-label">آخرین فعالیت</div>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<main class="container main">
+    <section class="p-grid">
+        <!-- Left: Recent activity -->
+        <div class="surface surface-pad">
+            <div class="p-section-head">
+                <h2 class="section-title">آخرین فعالیت‌ها</h2>
+                <div class="muted">۵ نظر آخر</div>
+            </div>
+
+            @if (Model.RecentReviews == null || Model.RecentReviews.Count == 0)
+            {
+                <div class="p-empty muted">هنوز نظری ثبت نکردی 🙂</div>
+            }
+            else
+            {
+                <div class="p-activity">
+                    @foreach (var r in Model.RecentReviews)
+                    {
+                        <div class="p-activity-item">
+                            <div class="p-activity-top">
+                                <a class="p-book"
+                                   asp-controller="Books"
+                                   asp-action="Details"
+                                   asp-route-id="@r.BookId">
+                                    @r.BookTitle
+                                </a>
+
+                                <div class="p-rating">
+                                    <span class="p-stars">@("★".PadLeft(r.Rating, '★') + new string('☆', 5 - r.Rating))</span>
+                                    <span class="muted">@r.Rating/5</span>
+                                </div>
+                            </div>
+
+                            <div class="muted p-preview">@r.TextPreview</div>
+
+                            <div class="p-activity-meta muted">
+                                @r.CreatedAt.ToLocalTime().ToString("yyyy/MM/dd  HH:mm", fa)
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="p-right">
+            <!-- Edit profile -->
+            <div class="surface surface-pad">
+                <div class="p-section-head">
+                    <h2 class="section-title">ویرایش پروفایل</h2>
+                    <div class="muted">نام و نام خانوادگی</div>
+                </div>
+
+                <form class="p-form" asp-controller="Profile" asp-action="UpdateProfile" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-row">
+                        <div class="field">
+                            <label class="label" for="FirstName">نام</label>
+                            <input class="input" id="FirstName" name="FirstName" value="@Model.EditProfile.FirstName" />
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="LastName">نام خانوادگی</label>
+                            <input class="input" id="LastName" name="LastName" value="@Model.EditProfile.LastName" />
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">ذخیره تغییرات</button>
+                </form>
+            </div>
+
+            <!-- Change password -->
+            <div class="surface surface-pad">
+                <div class="p-section-head">
+                    <h2 class="section-title">تغییر رمز عبور</h2>
+                    <div class="muted">امنیت حساب</div>
+                </div>
+
+                <form class="p-form" asp-controller="Profile" asp-action="ChangePassword" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="field">
+                        <label class="label" for="CurrentPassword">رمز فعلی</label>
+                        <input class="input" id="CurrentPassword" name="CurrentPassword" type="password" autocomplete="current-password" />
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="NewPassword">رمز جدید</label>
+                        <input class="input" id="NewPassword" name="NewPassword" type="password" autocomplete="new-password" />
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="ConfirmNewPassword">تکرار رمز جدید</label>
+                        <input class="input" id="ConfirmNewPassword" name="ConfirmNewPassword" type="password" autocomplete="new-password" />
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">تغییر رمز</button>
+                </form>
+            </div>
+
+            <!-- Logout -->
+            <div class="surface surface-pad">
+                <div class="p-section-head">
+                    <h2 class="section-title">عملیات</h2>
+                    <div class="muted">خروج از حساب</div>
+                </div>
+
+                <form asp-controller="Auth" asp-action="Logout" method="post">
+                    @Html.AntiForgeryToken()
+                    <button class="btn btn-ghost" type="submit">خروج</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>

@@ -1,0 +1,80 @@
+﻿@model bookTracker.Models.ViewModels.AdminBooksIndexVm
+
+@{
+    ViewData["Title"] = "مدیریت کتاب‌ها";
+    ViewData["Page"] = "admin";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminpanel.css" />
+}
+
+<div class="container main">
+    <div class="admin-topbar">
+        <div>
+            <h1 style="margin:0;">مدیریت کتاب‌ها</h1>
+            <div class="muted" style="margin-top:.35rem;">CRUD کامل + آمار هر کتاب</div>
+        </div>
+
+        <div class="admin-tabs">
+            <a asp-controller="Admin" asp-action="Index">داشبورد</a>
+            <a class="is-active" asp-controller="AdminBooks" asp-action="Index">کتاب‌ها</a>
+            <a asp-controller="AdminReviews" asp-action="Index">نظرات</a>
+            <a asp-controller="AdminUsers" asp-action="Index">کاربران</a>
+        </div>
+    </div>
+
+    <div class="surface surface-pad">
+        <form class="admin-filters" method="get">
+            <div class="field">
+                <label class="label">جستجو</label>
+                <input class="input" name="q" value="@Model.Q" placeholder="عنوان / نویسنده / ژانر" />
+            </div>
+            <button class="btn btn-ghost" type="submit">اعمال</button>
+            <a class="btn btn-primary" asp-controller="AdminBooks" asp-action="Create">افزودن کتاب</a>
+        </form>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>نویسنده</th>
+                    <th>ژانر</th>
+                    <th>سال</th>
+                    <th>نظرات</th>
+                    <th>میانگین</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Count == 0)
+                {
+                    <tr><td colspan="7" class="muted">چیزی پیدا نشد.</td></tr>
+                }
+                else
+                {
+                    @foreach (var b in Model.Items)
+                    {
+                        <tr>
+                            <td><b>@b.Title</b></td>
+                            <td>@b.Author</td>
+                            <td><span class="badge">@b.Genre</span></td>
+                            <td class="muted">@b.Year</td>
+                            <td>@b.ReviewCount</td>
+                            <td>@b.AvgRating.ToString("0.0")</td>
+                            <td style="white-space:nowrap;">
+                                <a class="btn btn-ghost" asp-controller="AdminBooks" asp-action="Edit" asp-route-id="@b.Id">ویرایش</a>
+
+                                <form asp-controller="AdminBooks" asp-action="Delete" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@b.Id" />
+                                    <button class="btn btn-ghost" type="submit" onclick="return confirm('حذف شود؟')">حذف</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

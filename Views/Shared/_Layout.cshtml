@@ -1,0 +1,34 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - کتاب‌خانه</title>
+
+    <link rel="stylesheet" href="~/css/fonts.css" />
+    <link rel="stylesheet" href="~/css/base.css" />
+    <link rel="stylesheet" href="~/css/header.css" />
+    <link rel="stylesheet" href="~/css/footer.css" />
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+    <div class="page">
+        @await Html.PartialAsync("_Header")
+
+        <main class="page-main">
+            @RenderBody()
+        </main>
+
+        @await Html.PartialAsync("_Footer")
+    </div>
+
+    <script>
+        document.body.dataset.page = "@(ViewData["Page"] ?? "")";
+    </script>
+
+    <script src="~/js/layout.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

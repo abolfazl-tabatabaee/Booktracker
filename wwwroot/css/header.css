@@ -1,0 +1,142 @@
+﻿.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(11,16,32,.55);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .9rem 0;
+    gap: 1rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-weight: 900;
+}
+
+.brand-mark {
+    font-size: 1.25rem;
+}
+
+.brand-text {
+    letter-spacing: .2px;
+}
+
+.nav {
+    display: flex;
+    gap: .9rem;
+    align-items: center;
+}
+
+.nav-link {
+    padding: .45rem .7rem;
+    border-radius: 12px;
+    color: var(--muted);
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+    border: 1px solid transparent;
+}
+
+    .nav-link:hover {
+        background: rgba(255,255,255,.05);
+        color: var(--text);
+        border-color: rgba(255,255,255,.08);
+    }
+
+    .nav-link.is-active {
+        color: var(--text);
+        background: rgba(255,255,255,.06);
+        border-color: rgba(255,255,255,.10);
+    }
+
+.auth {
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+}
+
+.user-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .45rem .7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.88);
+    max-width: 260px;
+}
+
+.user-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(90, 255, 160, .9);
+    box-shadow: 0 0 0 3px rgba(90, 255, 160, .12);
+}
+
+.user-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: ltr;
+    unicode-bidi: plaintext;
+    font-size: .95rem;
+}
+
+
+.logout-form {
+    display: inline-flex;
+    margin: 0;
+}
+
+    .logout-form button {
+        cursor: pointer;
+    }
+
+.burger {
+    display: none;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.10);
+    color: var(--text);
+    border-radius: 12px;
+    padding: .55rem .7rem;
+    cursor: pointer;
+}
+
+.mobile-nav {
+    border-top: 1px solid rgba(255,255,255,.06);
+    background: rgba(11,16,32,.70);
+}
+
+.mobile-nav-inner {
+    padding: .8rem 0 1rem;
+    display: grid;
+    gap: .6rem;
+}
+
+.mobile-auth {
+    display: flex;
+    gap: .6rem;
+    margin-top: .2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+@media (max-width: 720px) {
+    .nav, .auth {
+        display: none;
+    }
+
+    .burger {
+        display: inline-flex;
+    }
+}

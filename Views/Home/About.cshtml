@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "درباره ما";
+    ViewData["Page"] = "about";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/about.css" />
+}
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-content">
+            <h1>درباره‌ی کتاب‌خانه</h1>
+            <p class="muted">
+                کتاب‌خانه یک کاتالوگ سبک برای مرور کتاب‌هاست؛ می‌تونی کتاب‌ها رو ببینی، امتیاز بدی و نظر ثبت کنی.
+                تمرکز ما روی تجربه‌ی کاربری ساده، سریع و مینیماله.
+            </p>
+
+            <div class="hero-actions">
+                <a class="btn btn-primary" asp-controller="Home" asp-action="Index" asp-fragment="books">رفتن به کتاب‌ها</a>
+                <a class="btn btn-ghost" asp-controller="Home" asp-action="Contact">ارتباط با ما</a>
+            </div>
+        </div>
+
+        <!-- Stats (Auto) -->
+        <div class="hero-card" aria-hidden="true">
+            <div class="hero-stat">
+                <div class="stat-num" id="statBooks">—</div>
+                <div class="stat-label">تعداد کتاب‌ها</div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="stat-num" id="statReviews">—</div>
+                <div class="stat-label">نظر ثبت‌شده</div>
+            </div>
+
+            <div class="hero-stat">
+                <div class="stat-num" id="statAvg">—</div>
+                <div class="stat-label">ژانرهای فعال</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<main class="container main">
+    <!-- Story -->
+    <section class="about-grid">
+        <article class="panel">
+            <h2 class="panel-title">هدف پروژه</h2>
+            <p class="muted">
+                هدف این پروژه اینه که کاربران بتونن کتاب‌ها رو ببینن، جزئیات رو بررسی کنن و تجربه‌ی خودشون رو با امتیاز و نظر ثبت کنن.
+                این نسخه برای اجرا روی لوکال‌هاست طراحی شده و قرار نیست یک سایت بزرگ یا تجاری باشه.
+            </p>
+
+            <ul class="list">
+                <li>مرور سریع کتاب‌ها</li>
+                <li>دیدن اطلاعات کلیدی قبل از انتخاب</li>
+                <li>امتیازدهی و نظر برای کمک به بقیه</li>
+            </ul>
+        </article>
+
+        <article class="panel">
+            <h2 class="panel-title">قوانین ساده‌ی تجربه کاربری</h2>
+            <p class="muted">
+                ما سعی کردیم همه چیز واضح، کم‌حواس‌پرتی و قابل‌فهم باشه.
+            </p>
+
+            <div class="kpi">
+                <div class="kpi-item">
+                    <div class="kpi-num">1</div>
+                    <div class="kpi-text">کاربر سریع کتاب را پیدا کند</div>
+                </div>
+                <div class="kpi-item">
+                    <div class="kpi-num">2</div>
+                    <div class="kpi-text">جزئیات و امتیازها شفاف باشند</div>
+                </div>
+                <div class="kpi-item">
+                    <div class="kpi-num">3</div>
+                    <div class="kpi-text">ثبت نظر ساده و کم‌مرحله باشد</div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+        <div class="grid-head">
+            <h2 class="section-title">امکانات</h2>
+            <div class="muted">چی تو این پروژه داریم؟</div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🗂️</div>
+                <h3 class="feature-title">کاتالوگ کتاب‌ها</h3>
+                <p class="muted">نمایش کتاب‌ها به صورت کارت + دسته‌بندی و جستجوی ساده.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3 class="feature-title">امتیازدهی</h3>
+                <p class="muted">امتیازها و تعداد نظرات بر اساس داده‌های ثبت‌شده محاسبه می‌شوند.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3 class="feature-title">نظرات کاربران</h3>
+                <p class="muted">لیست نظرات + امکان افزودن/ویرایش/حذف (در نسخه کامل).</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">ریسپانسیو</h3>
+                <p class="muted">نمایش مناسب در موبایل، تبلت و دسکتاپ.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-inner">
+            <div>
+                <h2 class="cta-title">می‌خوای کتاب‌ها رو ببینی؟</h2>
+                <p class="muted">از صفحه اصلی شروع کن و جزئیات کتاب‌ها رو بررسی کن.</p>
+            </div>
+
+            <div class="cta-actions">
+                <a class="btn btn-primary" asp-controller="Home" asp-action="Index" asp-fragment="books">رفتن به صفحه کتاب‌ها</a>
+                <a class="btn btn-ghost" asp-controller="Home" asp-action="Contact">تماس</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script src="~/js/about.js"></script>
+}

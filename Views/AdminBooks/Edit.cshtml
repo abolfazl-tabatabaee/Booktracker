@@ -1,0 +1,93 @@
+﻿@model bookTracker.Models.ViewModels.AdminBookEditVm
+
+@{
+    ViewData["Title"] = "ویرایش کتاب";
+    ViewData["Page"] = "admin";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminpanel.css" />
+}
+
+<div class="container main">
+    <div class="admin-topbar">
+        <div>
+            <h1 style="margin:0;">ویرایش کتاب</h1>
+            <div class="muted" style="margin-top:.35rem;">شناسه: @Model.Id</div>
+        </div>
+
+        <div class="admin-tabs">
+            <a asp-controller="Admin" asp-action="Index">داشبورد</a>
+            <a class="is-active" asp-controller="AdminBooks" asp-action="Index">کتاب‌ها</a>
+            <a asp-controller="AdminReviews" asp-action="Index">نظرات</a>
+            <a asp-controller="AdminUsers" asp-action="Index">کاربران</a>
+        </div>
+    </div>
+
+    <div class="surface surface-pad">
+        <form asp-controller="AdminBooks" asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-row">
+                <div class="field">
+                    <label class="label">عنوان</label>
+                    <input class="input" asp-for="Title" />
+                </div>
+                <div class="field">
+                    <label class="label">نویسنده</label>
+                    <input class="input" asp-for="Author" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field">
+                    <label class="label">ژانر</label>
+                    <input class="input" asp-for="Genre" />
+                </div>
+                <div class="field">
+                    <label class="label">سال</label>
+                    <input class="input" asp-for="Year" type="number" />
+                </div>
+                <div class="field">
+                    <label class="label">زبان</label>
+                    <input class="input" asp-for="Lang" />
+                </div>
+            </div>
+
+            <!-- Preview current cover -->
+            @if (!string.IsNullOrWhiteSpace(Model.CoverPath))
+            {
+                <div class="field">
+                    <label class="label">کاور فعلی</label>
+                    <div class="muted" style="margin-bottom:.45rem;">@Model.CoverPath</div>
+                    <img src="@Model.CoverPath" alt="cover" style="max-width:220px;border-radius:14px;border:1px solid rgba(255,255,255,.10);" />
+                </div>
+            }
+
+            <!-- ✅ Upload new cover -->
+            <div class="field">
+                <label class="label">تعویض کاور (Upload جدید)</label>
+                <input class="input" asp-for="CoverFile" type="file"
+                       accept=".jpg,.jpeg,.png,.webp,image/*" />
+                <div class="muted" style="margin-top:.35rem;">حداکثر 1MB — فقط jpg/png/webp</div>
+                <div class="muted" style="margin-top:.35rem; color:rgba(255,90,90,.9);">
+                    @Html.ValidationMessageFor(m => m.CoverFile)
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">توضیحات</label>
+                <textarea class="textarea" asp-for="Description" rows="5"></textarea>
+            </div>
+
+            <div class="field">
+                <label class="label">تگ‌ها</label>
+                <input class="input" asp-for="TagsCsv" />
+            </div>
+
+            <button class="btn btn-primary" type="submit">ذخیره</button>
+            <a class="btn btn-ghost" asp-controller="AdminBooks" asp-action="Index">بازگشت</a>
+        </form>
+    </div>
+</div>

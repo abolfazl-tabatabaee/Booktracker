@@ -1,0 +1,192 @@
+﻿@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
+
+@{
+    ViewData["Title"] = "جزئیات کتاب";
+    ViewData["Page"] = "";
+
+    var isAuth = User?.Identity?.IsAuthenticated ?? false;
+    var fullName = User.FindFirst("FullName")?.Value;
+    var displayName = string.IsNullOrWhiteSpace(fullName) ? (User?.Identity?.Name ?? "") : fullName;
+
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}#reviews";
+    var loginUrl = Url.Action("Login", "Auth", new { returnUrl }) ?? "/Auth/Login";
+    var registerUrl = Url.Action("Register", "Auth", new { returnUrl }) ?? "/Auth/Register";
+
+    // ✅ CSRF token for JS fetch
+    var tokens = Antiforgery.GetAndStoreTokens(Context);
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/book.css" />
+}
+
+<!-- ✅ CSRF token available to JS -->
+<meta name="csrf-token" content="@tokens.RequestToken" />
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-content">
+            <div class="breadcrumb muted">
+                <a class="link" asp-controller="Home" asp-action="Index">کتاب‌ها</a>
+                <span class="sep">/</span>
+                <span id="bcTitle">جزئیات</span>
+            </div>
+
+            <h1 class="hero-title" id="bookTitle">جزئیات کتاب</h1>
+            <div class="hero-sub muted" id="bookSubtitle">—</div>
+        </div>
+
+        <div class="hero-card" aria-hidden="true">
+            <div class="hero-stat">
+                <div class="stat-num" id="statAvg">—</div>
+                <div class="stat-label">میانگین امتیاز</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-num" id="statReviews">—</div>
+                <div class="stat-label">تعداد نظرات</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-num" id="statYear">—</div>
+                <div class="stat-label">سال انتشار</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main -->
+<main class="container main">
+    <section class="details">
+        <aside class="details-side">
+            <div class="card surface">
+                <div class="cover-wrap" id="coverWrap">
+                    <span class="badge" id="genreBadge">—</span>
+                </div>
+
+                <div class="side-body">
+                    <div class="rating-row">
+                        <div class="stars" id="starRow" aria-label="امتیاز کتاب">★★★★★</div>
+                        <div class="muted" id="ratingText">—</div>
+                    </div>
+
+                    <div class="chips" id="genreChips"></div>
+
+                    <div class="side-actions">
+                        <button class="btn btn-primary" type="button" id="wishBtn">افزودن به علاقه‌مندی (دمو)</button>
+                        <a class="btn btn-ghost" href="#about">درباره کتاب</a>
+                    </div>
+
+                    <div class="note muted">اگر این کتاب رو خوندی، تجربه‌ات رو کوتاه و شفاف بنویس.</div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="details-main">
+            <article class="panel">
+                <div class="panel-head">
+                    <h2 class="panel-title" id="about">درباره کتاب</h2>
+                    <span class="pill" id="bookLang">FA</span>
+                </div>
+
+                <p class="muted" id="bookDesc">—</p>
+
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <div class="meta-k muted">نویسنده</div>
+                        <div class="meta-v" id="bookAuthor">—</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-k muted">شناسه</div>
+                        <div class="meta-v" id="bookId">—</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-k muted">ژانر</div>
+                        <div class="meta-v" id="bookGenre">—</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-k muted">سال انتشار</div>
+                        <div class="meta-v" id="bookYear">—</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="panel" id="reviews">
+                <div class="panel-head">
+                    <h2 class="panel-title">نظرات کاربران</h2>
+                    <span class="muted" id="reviewCountInline">—</span>
+                </div>
+
+                <div class="review-list" id="reviewList"></div>
+
+                <div class="divider"></div>
+
+                <h3 class="sub-title">ثبت نظر</h3>
+
+                <!-- ✅ فقط یک authGate (بدون تکرار id) -->
+                <div id="authGate"
+                     class="note muted"
+                     data-auth="@isAuth.ToString().ToLower()"
+                     data-user-name="@displayName"
+                     data-login-url="@loginUrl"
+                @(isAuth ? "hidden" : "")>
+                    <span>برای ثبت نظر باید </span>
+                    <a class="link" href="@loginUrl">وارد شوید</a>
+                    <span> یا </span>
+                    <a class="link" href="@registerUrl">ثبت‌نام کنید</a>
+                    <span>.</span>
+                </div>
+
+                @if (isAuth)
+                {
+                    <form class="review-form" id="reviewForm">
+                        <div class="form-row">
+                            <div class="field">
+                                <label class="label" for="rName">نام شما</label>
+                                <input class="input"
+                                       id="rName"
+                                       type="text"
+                                       placeholder="مثلاً علی"
+                                       maxlength="40"
+                                       value="@displayName"
+                                       readonly />
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="rRate">امتیاز</label>
+                                <select class="select" id="rRate">
+                                    <option value="5">5 - عالی</option>
+                                    <option value="4">4 - خیلی خوب</option>
+                                    <option value="3">3 - خوب</option>
+                                    <option value="2">2 - متوسط</option>
+                                    <option value="1">1 - ضعیف</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="rText">متن نظر</label>
+                            <textarea class="textarea" id="rText" rows="5" placeholder="نظر خود را بنویسید..." maxlength="400"></textarea>
+                            <div class="helper">
+                                <span class="muted" id="charHint">0/400</span>
+                                <span class="muted">حداقل 10 کاراکتر</span>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-primary" type="submit">ثبت نظر</button>
+                            <button class="btn btn-ghost" type="button" id="clearBtn">پاک کردن</button>
+                        </div>
+
+                        <div class="form-msg muted" id="formMsg" hidden></div>
+                    </form>
+                }
+            </article>
+        </section>
+    </section>
+</main>
+
+@section Scripts {
+    <script src="~/js/book.js"></script>
+
+}

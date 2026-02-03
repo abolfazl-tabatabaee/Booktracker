@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "کتاب‌ها";
+    ViewData["Page"] = "home";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+}
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-content">
+            <h1>کتاب بعدی‌ات را پیدا کن</h1>
+            <p class="muted">
+                لیست کتاب‌ها را مرور کن، جزئیات را ببین و تجربه‌ات را با امتیاز و نظر ثبت کن.
+            </p>
+
+            <div class="hero-actions">
+                <a class="btn btn-primary" asp-controller="Home" asp-action="Index" asp-fragment="books">
+                    مشاهده کتاب‌ها
+                </a>
+                <button class="btn btn-ghost" type="button" id="helpBtn">چطور کار می‌کند؟</button>
+            </div>
+        </div>
+
+        <div class="hero-card" aria-hidden="true">
+            <div class="hero-stat">
+                <div class="stat-num" id="statBooks">—</div>
+                <div class="stat-label">تعداد کتاب‌ها</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-num" id="statReviews">—</div>
+                <div class="stat-label">نظر ثبت‌شده</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-num" id="statAvg">—</div>
+                <div class="stat-label">ژانرهای فعال</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main -->
+<main class="container main">
+    <!-- Controls -->
+    <section class="controls" id="books">
+        <div class="controls-row">
+            <div class="field">
+                <label class="label" for="q">جستجو</label>
+                <input class="input" id="q" type="search" placeholder="عنوان یا نویسنده…" autocomplete="off" />
+            </div>
+
+            <div class="field">
+                <label class="label" for="sort">مرتب‌سازی</label>
+                <select class="select" id="sort">
+                    <option value="popular">پربازدیدترین</option>
+                    <option value="rating_desc">بالاترین امتیاز</option>
+                    <option value="title_asc">عنوان (الف-ی)</option>
+                    <option value="year_desc">جدیدترین انتشار</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filters-title muted">ژانر:</div>
+            <div class="chips" id="genreChips"></div>
+            <button class="btn btn-ghost btn-sm" id="resetBtn" type="button">پاک‌کردن فیلترها</button>
+        </div>
+    </section>
+
+    <!-- Grid -->
+    <section>
+        <div class="grid-head">
+            <h2 class="section-title">کتاب‌ها</h2>
+            <div class="muted" id="resultCount">—</div>
+        </div>
+
+        <div class="grid" id="bookGrid" aria-live="polite"></div>
+
+        <div class="empty" id="emptyState" hidden>
+            <div class="empty-icon">🔎</div>
+            <div class="empty-title">چیزی پیدا نشد</div>
+            <div class="muted">کلمه‌ی دیگری امتحان کن یا فیلترها را ریست کن.</div>
+        </div>
+    </section>
+</main>
+
+<!-- Help Modal -->
+<div class="modal" id="helpModal" hidden>
+    <div class="modal-backdrop" data-close="1"></div>
+
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+        <div class="modal-head">
+            <div>
+                <div class="modal-kicker muted">راهنما</div>
+                <h3 class="modal-title" id="helpTitle">راهنمای استفاده از کتاب‌خانه</h3>
+            </div>
+
+            <button class="icon-btn" type="button" id="helpCloseBtn" aria-label="بستن">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="help-grid">
+                <div class="help-card">
+                    <div class="help-ic">🔎</div>
+                    <div class="help-text">
+                        <div class="help-title">جستجو</div>
+                        <div class="muted">عنوان یا نویسنده را بنویس تا نتایج سریع فیلتر شوند.</div>
+                    </div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-ic">🧩</div>
+                    <div class="help-text">
+                        <div class="help-title">فیلتر ژانر</div>
+                        <div class="muted">روی ژانرها کلیک کن تا فقط همان دسته نمایش داده شود.</div>
+                    </div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-ic">↕️</div>
+                    <div class="help-text">
+                        <div class="help-title">مرتب‌سازی</div>
+                        <div class="muted">محبوب‌ترین، امتیاز بالاتر یا جدیدترین را انتخاب کن.</div>
+                    </div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-ic">⭐</div>
+                    <div class="help-text">
+                        <div class="help-title">امتیاز و نظرات</div>
+                        <div class="muted">امتیازها بر اساس نظرها محاسبه می‌شوند (نمونه + ثبت‌شده در مرورگر).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-note">
+                <div class="help-note-title">نکته</div>
+                <div class="muted">
+                    این نسخه برای اجرا روی لوکال‌هاست و هدف آن نمایش یک ساختار تمیز و قابل توسعه است.
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-foot">
+            <a class="btn btn-ghost" asp-controller="Home" asp-action="Contact">رفتن به تماس</a>
+            <button class="btn btn-primary" type="button" id="helpOkBtn">متوجه شدم</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/home.js"></script>
+}

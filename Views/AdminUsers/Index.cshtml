@@ -1,0 +1,92 @@
+﻿@model bookTracker.Models.ViewModels.AdminUsersIndexVm
+
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+    ViewData["Page"] = "admin";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminpanel.css" />
+}
+
+<div class="container main">
+    <div class="admin-topbar">
+        <div>
+            <h1 style="margin:0;">مدیریت کاربران</h1>
+            <div class="muted" style="margin-top:.35rem;">جستجو + آمار + تغییر نقش Admin</div>
+        </div>
+
+        <div class="admin-tabs">
+            <a asp-controller="Admin" asp-action="Index">داشبورد</a>
+            <a asp-controller="AdminBooks" asp-action="Index">کتاب‌ها</a>
+            <a asp-controller="AdminReviews" asp-action="Index">نظرات</a>
+            <a class="is-active" asp-controller="AdminUsers" asp-action="Index">کاربران</a>
+        </div>
+    </div>
+
+    <div class="surface surface-pad">
+        <form class="admin-filters" method="get">
+            <div class="field">
+                <label class="label">جستجو</label>
+                <input class="input" name="q" value="@Model.Q" placeholder="نام / ایمیل / یوزرنیم" />
+            </div>
+            <button class="btn btn-ghost" type="submit">اعمال</button>
+            <a class="btn btn-ghost" asp-controller="AdminUsers" asp-action="Index">پاک کردن</a>
+        </form>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>کاربر</th>
+                    <th>ایمیل</th>
+                    <th>نقش</th>
+                    <th>تعداد نظر</th>
+                    <th>میانگین امتیاز</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Count == 0)
+                {
+                    <tr><td colspan="6" class="muted">کاربری پیدا نشد.</td></tr>
+                }
+                else
+                {
+                    @foreach (var u in Model.Items)
+                    {
+                        <tr>
+                            <td><b>@u.FullName</b></td>
+                            <td class="muted">@u.Email</td>
+                            <td>
+                                @if (u.IsAdmin)
+                                {
+                                    <span class="badge">Admin</span>
+                                }
+                                else
+                                {
+                                    <span class="badge">User</span>
+                                }
+                            </td>
+                            <td>@u.ReviewCount</td>
+                            <td>@u.AvgRating.ToString("0.0")</td>
+                            <td style="white-space:nowrap;">
+                                <form asp-controller="AdminUsers" asp-action="ToggleAdmin" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@u.Id" />
+                                    <button class="btn btn-ghost" type="submit"
+                                            onclick="return confirm('نقش این کاربر تغییر کند؟')">
+                                        تغییر نقش
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <div class="muted" style="margin-top:.8rem;">
+            (برای سرعت، حداکثر 200 کاربر نمایش داده می‌شود.)
+        </div>
+    </div>
+</div>

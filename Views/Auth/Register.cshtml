@@ -1,0 +1,177 @@
+﻿@model bookTracker.Models.ViewModels.RegisterVm
+
+@{
+    ViewData["Title"] = "ثبت‌نام";
+    ViewData["Page"] = "";
+    var returnUrl = (string?)ViewData["ReturnUrl"];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth.css" />
+}
+
+<main class="auth-page">
+    <section class="auth-frame">
+        <!-- Right: Form -->
+        <div class="auth-pane">
+            <div class="auth-mini-brand">
+                <span class="brand-mark">📚</span>
+                <span class="brand-text">کتاب‌خانه</span>
+            </div>
+
+            <h1 class="auth-title">ساخت حساب</h1>
+            <p class="auth-sub muted">
+                با ساخت حساب، می‌تونی نظر ثبت کنی و امتیاز بدی.
+            </p>
+
+            <form class="auth-form" asp-controller="Auth" asp-action="Register" method="post" novalidate>
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                <!-- فقط پیام کلی بالا -->
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label class="label" for="firstName">نام</label>
+                        <input class="input"
+                               id="firstName"
+                               asp-for="FirstName"
+                               type="text"
+                               placeholder="ابوالفضل"
+                               autocomplete="given-name" />
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="lastName">نام خانوادگی</label>
+                        <input class="input"
+                               id="lastName"
+                               asp-for="LastName"
+                               type="text"
+                               placeholder="طباطبایی"
+                               autocomplete="family-name" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label" for="email">ایمیل</label>
+                    <input class="input"
+                           id="email"
+                           asp-for="Email"
+                           type="email"
+                           placeholder="example@mail.com"
+                           autocomplete="email" />
+                </div>
+
+                <div class="form-row">
+                    <div class="field pwd">
+                        <label class="label" for="password">رمز عبور</label>
+                        <input class="input"
+                               id="password"
+                               asp-for="Password"
+                               type="password"
+                               placeholder="حداقل 6 کاراکتر"
+                               autocomplete="new-password" />
+                        <button class="pwd-eye" type="button" data-eye="password" aria-label="نمایش/مخفی کردن رمز عبور">
+                            <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                            <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M3 3l18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M10.58 10.58A3 3 0 0 0 12 15a3 3 0 0 0 2.42-4.42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c6.5 0 10 7 10 7a18.2 18.2 0 0 1-3.1 4.35" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M6.11 6.11C3.9 7.7 2 12 2 12s3.5 7 10 7a10.9 10.9 0 0 0 5.06-1.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="field pwd">
+                        <label class="label" for="password2">تکرار رمز عبور</label>
+                        <input class="input"
+                               id="password2"
+                               asp-for="ConfirmPassword"
+                               type="password"
+                               placeholder="دوباره وارد کن"
+                               autocomplete="new-password" />
+                        <button class="pwd-eye" type="button" data-eye="password2" aria-label="نمایش/مخفی کردن تکرار رمز عبور">
+                            <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                            <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M3 3l18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M10.58 10.58A3 3 0 0 0 12 15a3 3 0 0 0 2.42-4.42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c6.5 0 10 7 10 7a18.2 18.2 0 0 1-3.1 4.35" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M6.11 6.11C3.9 7.7 2 12 2 12s3.5 7 10 7a10.9 10.9 0 0 0 5.06-1.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <label class="check">
+                    <input type="checkbox" id="terms"  asp-for="AcceptTerms"  />
+                    قوانین و حریم خصوصی را می‌پذیرم
+                </label> 
+              
+                <button class="btn btn-primary auth-primary" type="submit" id="registerBtn">ایجاد حساب</button>
+
+                <!-- این پیام سفارشی خودته (اختیاری) -->
+                <div class="note muted" id="pwdHint" style="display:none;">
+                    رمز عبور و تکرارش یکسان نیستند.
+                </div>
+
+                <div class="auth-footline muted">
+                    قبلاً حساب داری؟
+                    <a class="link" asp-controller="Auth" asp-action="Login" asp-route-returnUrl="@returnUrl">ورود</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Left: Illustration / Info -->
+        <aside class="auth-visual" aria-hidden="true">
+            <div class="scene">
+                <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <linearGradient id="skyReg" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0" stop-color="rgba(255,200,140,0.42)" />
+                            <stop offset="0.55" stop-color="rgba(124,92,255,0.18)" />
+                            <stop offset="1" stop-color="rgba(11,16,32,0.58)" />
+                        </linearGradient>
+                        <radialGradient id="sunReg" cx="48%" cy="34%" r="22%">
+                            <stop offset="0" stop-color="rgba(255,245,220,0.95)" />
+                            <stop offset="1" stop-color="rgba(255,245,220,0)" />
+                        </radialGradient>
+                    </defs>
+
+                    <rect width="1200" height="800" fill="url(#skyReg)" />
+                    <circle cx="560" cy="230" r="220" fill="url(#sunReg)" />
+
+                    <path d="M0 520 C240 460, 420 540, 560 500 C740 450, 920 580, 1200 520 L1200 800 L0 800 Z"
+                          fill="rgba(11,16,32,0.36)" />
+                    <path d="M0 600 C280 540, 470 660, 680 600 C880 545, 1040 690, 1200 640 L1200 800 L0 800 Z"
+                          fill="rgba(11,16,32,0.50)" />
+                </svg>
+            </div>
+
+            <div class="visual-card">
+                <div class="visual-title">خوش اومدی 👋</div>
+                <div class="visual-text muted">
+                    بعد از ثبت‌نام می‌تونی برای کتاب‌ها امتیاز بدی و نظر ثبت کنی.
+                </div>
+
+                <ul class="visual-list">
+                    <li>جستجو و فیلتر ژانرها</li>
+                    <li>نمایش امتیاز و تعداد نظرات</li>
+                    <li>ثبت نظر</li>
+                </ul>
+            </div>
+        </aside>
+    </section>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/auth.js"></script>
+}
+

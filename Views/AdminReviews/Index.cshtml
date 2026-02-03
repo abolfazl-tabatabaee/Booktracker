@@ -1,0 +1,99 @@
+﻿@model bookTracker.Models.ViewModels.AdminReviewsIndexVm
+
+@{
+    ViewData["Title"] = "مدیریت نظرات";
+    ViewData["Page"] = "admin";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminpanel.css" />
+}
+
+<div class="container main">
+    <div class="admin-topbar">
+        <div>
+            <h1 style="margin:0;">مدیریت نظرات</h1>
+            <div class="muted" style="margin-top:.35rem;">فیلتر + حذف نظر نامناسب</div>
+        </div>
+
+        <div class="admin-tabs">
+            <a asp-controller="Admin" asp-action="Index">داشبورد</a>
+            <a asp-controller="AdminBooks" asp-action="Index">کتاب‌ها</a>
+            <a class="is-active" asp-controller="AdminReviews" asp-action="Index">نظرات</a>
+            <a asp-controller="AdminUsers" asp-action="Index">کاربران</a>
+        </div>
+    </div>
+
+    <div class="surface surface-pad">
+        <form class="admin-filters" method="get">
+            <div class="field">
+                <label class="label">جستجو</label>
+                <input class="input" name="q" value="@Model.Q" placeholder="کاربر / کتاب / متن" />
+            </div>
+
+            <div class="field">
+                <label class="label">امتیاز</label>
+                <select class="select" name="rating">
+                    <option value="">همه</option>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <option value="@i" selected="@(Model.Rating == i)">@i</option>
+                    }
+                </select>
+            </div>
+
+            <div class="field">
+                <label class="label">BookId</label>
+                <input class="input" name="bookId" value="@(Model.BookId?.ToString() ?? "")" placeholder="مثلاً 5" />
+            </div>
+
+            <button class="btn btn-ghost" type="submit">اعمال</button>
+            <a class="btn btn-ghost" asp-controller="AdminReviews" asp-action="Index">پاک‌کردن فیلتر</a>
+        </form>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>کتاب</th>
+                    <th>کاربر</th>
+                    <th>امتیاز</th>
+                    <th>متن</th>
+                    <th>تاریخ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Items.Count == 0)
+                {
+                    <tr><td colspan="6" class="muted">نظری پیدا نشد.</td></tr>
+                }
+                else
+                {
+                    @foreach (var r in Model.Items)
+                    {
+                        <tr>
+                            <td>
+                                <a class="link" asp-controller="Books" asp-action="Details" asp-route-id="@r.BookId">@r.BookTitle</a>
+                            </td>
+                            <td>@r.DisplayName</td>
+                            <td><span class="badge">@r.Rating/5</span></td>
+                            <td class="muted">@r.TextPreview</td>
+                            <td class="muted">@r.CreatedAt.ToLocalTime().ToString("yyyy/MM/dd HH:mm")</td>
+                            <td style="white-space:nowrap;">
+                                <form asp-controller="AdminReviews" asp-action="Delete" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@r.Id" />
+                                    <button class="btn btn-ghost" type="submit" onclick="return confirm('حذف نظر انجام شود؟')">حذف</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <div class="muted" style="margin-top:.8rem;">
+            (برای جلوگیری از سنگین شدن صفحه، حداکثر 200 نتیجه نمایش داده می‌شود.)
+        </div>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+﻿@using System.Globalization
+@model bookTracker.Models.ViewModels.AdminDashboardVm
+
+@{
+    ViewData["Title"] = "پنل ادمین";
+    ViewData["Page"] = "admin";
+    var fa = new CultureInfo("fa-IR");
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminpanel.css" />
+}
+
+<div class="container main">
+
+    <div class="admin-topbar">
+        <div>
+            <h1 style="margin:0;">پنل ادمین</h1>
+            <div class="muted" style="margin-top:.35rem;">مدیریت کتاب‌ها، نظرات و کاربران</div>
+        </div>
+
+        <div class="admin-tabs">
+            <a class="is-active" asp-controller="Admin" asp-action="Index">داشبورد</a>
+            <a asp-controller="AdminBooks" asp-action="Index">کتاب‌ها</a>
+            <a asp-controller="AdminReviews" asp-action="Index">نظرات</a>
+            <a asp-controller="AdminUsers" asp-action="Index">کاربران</a>
+        </div>
+    </div>
+
+    <section class="admin-grid">
+        <div class="admin-card">
+            <div class="k">کتاب‌ها</div>
+            <div class="v">@Model.TotalBooks</div>
+            <div class="admin-actions">
+                <a class="btn btn-primary" asp-controller="AdminBooks" asp-action="Create">افزودن کتاب</a>
+                <a class="btn btn-ghost" asp-controller="AdminBooks" asp-action="Index">مدیریت</a>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="k">کاربران</div>
+            <div class="v">@Model.TotalUsers</div>
+            <div class="admin-actions">
+                <a class="btn btn-primary" asp-controller="AdminUsers" asp-action="Index">لیست کاربران</a>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="k">نظرات</div>
+            <div class="v">@Model.TotalReviews</div>
+            <div class="admin-actions">
+                <a class="btn btn-primary" asp-controller="AdminReviews" asp-action="Index">مدیریت نظرات</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="surface surface-pad" style="margin-top:1rem;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;">
+            <h2 class="section-title" style="margin:0;">آخرین ۱۰ نظر</h2>
+            <span class="muted">برای حذف/مدیریت برو به صفحه نظرات</span>
+        </div>
+
+        <div style="margin-top: .9rem;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>کتاب</th>
+                        <th>کاربر</th>
+                        <th>امتیاز</th>
+                        <th>تاریخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.RecentReviews.Count == 0)
+                    {
+                        <tr><td colspan="4" class="muted">هنوز نظری ثبت نشده.</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (var r in Model.RecentReviews)
+                        {
+                            <tr>
+                                <td>
+                                    <a class="link" asp-controller="Books" asp-action="Details" asp-route-id="@r.BookId">@r.BookTitle</a>
+                                </td>
+                                <td>@r.DisplayName</td>
+                                <td><span class="badge">@r.Rating/5</span></td>
+                                <td class="muted">@r.CreatedAt.ToLocalTime().ToString("yyyy/MM/dd HH:mm", fa)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

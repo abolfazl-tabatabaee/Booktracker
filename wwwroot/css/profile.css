@@ -1,0 +1,136 @@
+﻿
+.p-id {
+    margin-top: 1rem;
+    display: grid;
+    gap: .35rem;
+}
+
+.p-name {
+    font-weight: 900;
+    font-size: 1.15rem;
+}
+
+.p-badges {
+    margin-top: .35rem;
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.p-badge {
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.04);
+    font-weight: 800;
+    font-size: .9rem;
+    color: rgba(255,255,255,.85);
+}
+
+.p-grid {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 1.2rem;
+    align-items: start;
+}
+
+.p-right {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.p-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .8rem;
+    margin-bottom: .8rem;
+}
+
+.p-activity {
+    display: grid;
+    gap: .9rem;
+}
+
+.p-activity-item {
+    padding: .9rem 1rem;
+    border-radius: var(--radius2);
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+}
+
+.p-activity-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    flex-wrap: wrap;
+}
+
+.p-book {
+    font-weight: 900;
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,.18);
+    text-underline-offset: 4px;
+}
+
+    .p-book:hover {
+        text-decoration-color: rgba(255,255,255,.40);
+    }
+
+.p-rating {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.p-stars {
+    letter-spacing: .5px;
+}
+
+.p-preview {
+    margin-top: .55rem;
+    line-height: 1.9;
+}
+
+.p-activity-meta {
+    margin-top: .55rem;
+    font-size: .9rem;
+}
+
+.p-form {
+    display: grid;
+    gap: .9rem;
+}
+
+.p-empty {
+    padding: 1rem;
+    border-radius: var(--radius2);
+    border: 1px dashed rgba(255,255,255,.12);
+    background: rgba(255,255,255,.02);
+}
+
+.p-note {
+    margin-top: .9rem;
+    padding: .8rem 1rem;
+    border-radius: var(--radius2);
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.04);
+    line-height: 1.9;
+}
+
+.p-note-ok {
+    border-color: rgba(91,255,218,.25);
+    background: rgba(91,255,218,.08);
+}
+
+.p-note-err {
+    border-color: rgba(255,90,90,.25);
+    background: rgba(255,90,90,.07);
+}
+
+@media (max-width: 980px) {
+    .p-grid {
+        grid-template-columns: 1fr;
+    }
+}
