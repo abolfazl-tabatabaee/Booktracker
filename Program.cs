@@ -51,7 +51,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Auth/Login";
 });
 
-// ✅ Anti-forgery: اسم کوکی رو ثابت می‌کنیم تا تو کنترلرها brittle نباشه
 const string AntiForgeryCookieName = "bookTracker.AntiCsrf";
 
 builder.Services.AddAntiforgery(options =>
@@ -61,9 +60,7 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.SameSite = SameSiteMode.Lax;
 
-    // اگر SPA داری و نیاز داری JS به کوکی دسترسی داشته باشه => HttpOnly=false
-    // ولی در حالت MVC معمولاً لازم نیست. پس پیش‌فرض نگه می‌داریم.
-    // options.Cookie.HttpOnly = false;
+   
 });
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
@@ -83,7 +80,6 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 
 var app = builder.Build();
 
-// ✅ Security headers + CSP
 app.Use(async (ctx, next) =>
 {
     ctx.Response.Headers["X-Content-Type-Options"] = "nosniff";
@@ -91,7 +87,6 @@ app.Use(async (ctx, next) =>
     ctx.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
     ctx.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()";
 
-    // CSP: در Dev کمی permissive تر، در Prod سخت‌تر
     var isDev = app.Environment.IsDevelopment();
 
     var csp =
@@ -125,7 +120,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ✅ Seed roles/users فقط در Development
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
@@ -146,7 +140,6 @@ if (app.Environment.IsDevelopment())
         .Trim()
         .ToLowerInvariant();
 
-    // ✅ پسورد فقط از Secret/Env بیاد. اگر ست نشده seed انجام نشه.
     var adminPass = (app.Configuration["SeedAdmin:Password"] ?? "").Trim();
     if (!string.IsNullOrWhiteSpace(adminPass))
     {

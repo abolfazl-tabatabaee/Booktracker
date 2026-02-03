@@ -55,7 +55,6 @@
                 </div>
             </div>
 
-            <!-- Preview current cover -->
             @if (!string.IsNullOrWhiteSpace(Model.CoverPath))
             {
                 <div class="field">
@@ -65,7 +64,6 @@
                 </div>
             }
 
-            <!-- ✅ Upload new cover -->
             <div class="field">
                 <label class="label">تعویض کاور (Upload جدید)</label>
                 <input class="input" asp-for="CoverFile" type="file"

@@ -12,7 +12,7 @@
 
 <main class="auth-page">
     <section class="auth-frame">
-        <!-- Right: Form -->
+
         <div class="auth-pane">
             <div class="auth-mini-brand">
                 <span class="brand-mark">📚</span>
@@ -28,7 +28,6 @@
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="returnUrl" value="@returnUrl" />
 
-                <!-- فقط پیام کلی بالا -->
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 <div class="form-row">
@@ -116,7 +115,6 @@
               
                 <button class="btn btn-primary auth-primary" type="submit" id="registerBtn">ایجاد حساب</button>
 
-                <!-- این پیام سفارشی خودته (اختیاری) -->
                 <div class="note muted" id="pwdHint" style="display:none;">
                     رمز عبور و تکرارش یکسان نیستند.
                 </div>
@@ -128,7 +126,6 @@
             </form>
         </div>
 
-        <!-- Left: Illustration / Info -->
         <aside class="auth-visual" aria-hidden="true">
             <div class="scene">
                 <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">

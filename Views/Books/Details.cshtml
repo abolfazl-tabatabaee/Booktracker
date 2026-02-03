@@ -13,7 +13,6 @@
     var loginUrl = Url.Action("Login", "Auth", new { returnUrl }) ?? "/Auth/Login";
     var registerUrl = Url.Action("Register", "Auth", new { returnUrl }) ?? "/Auth/Register";
 
-    // ✅ CSRF token for JS fetch
     var tokens = Antiforgery.GetAndStoreTokens(Context);
 }
 
@@ -21,10 +20,8 @@
     <link rel="stylesheet" href="~/css/book.css" />
 }
 
-<!-- ✅ CSRF token available to JS -->
 <meta name="csrf-token" content="@tokens.RequestToken" />
 
-<!-- Hero -->
 <section class="hero">
     <div class="container hero-inner">
         <div class="hero-content">
@@ -55,7 +52,6 @@
     </div>
 </section>
 
-<!-- Main -->
 <main class="container main">
     <section class="details">
         <aside class="details-side">
@@ -123,7 +119,6 @@
 
                 <h3 class="sub-title">ثبت نظر</h3>
 
-                <!-- ✅ فقط یک authGate (بدون تکرار id) -->
                 <div id="authGate"
                      class="note muted"
                      data-auth="@isAuth.ToString().ToLower()"

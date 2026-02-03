@@ -32,7 +32,6 @@ public sealed class AdminUsersService : IAdminUsersService
                 (u.UserName ?? "").Contains(q));
         }
 
-        // آمار Reviewها برای هر کاربر
         var stats = await _reviews.QueryNoTracking()
             .Where(r => r.UserId != null)
             .GroupBy(r => r.UserId!)

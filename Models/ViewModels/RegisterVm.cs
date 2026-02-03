@@ -26,7 +26,7 @@ public class RegisterVm
     [Compare(nameof(Password), ErrorMessage = "رمز عبور و تکرار آن یکی نیست.")]
     public string ConfirmPassword { get; set; } = "";
 
-    [Range(typeof(bool),"true","true", ErrorMessage = "باید قوانین و حریم خصوصی را بپذیرید.")]
+    //[Range(typeof(bool),"true","true", ErrorMessage = "باید قوانین و حریم خصوصی را بپذیرید.")]
     public bool AcceptTerms { get; set; }
    
 
