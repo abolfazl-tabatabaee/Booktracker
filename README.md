@@ -44,7 +44,7 @@ It includes user authentication, role-based authorization, an admin panel, and s
 
 1. Clone the repository
 ```
-git clone <REPOSITORY_URL>
+git clone <https://github.com/abolfazl-tabatabaee/booktracker.git>
 cd bookTracker
 ```
 
