@@ -1,4 +1,5 @@
 ﻿# BookTracker
+![CI](https://github.com/abolfazl-tabatabaee/Booktracker/actions/workflows/ci.yml/badge.svg)
 
 BookTracker is a web application for managing books and user reviews, built with **ASP.NET Core**, **Entity Framework Core**, and **ASP.NET Core Identity**.
 The project focuses on clean architecture, security best practices, and maintainable backend design.
