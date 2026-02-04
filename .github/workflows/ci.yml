@@ -20,8 +20,13 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
+      - name: Find project
+        run: |
+          echo "Listing .csproj files:"
+          find . -name "*.csproj" -maxdepth 6 -print
+
       - name: Restore
-        run: dotnet restore ./bookTracker.csproj
+        run: dotnet restore
 
       - name: Build (Release)
-        run: dotnet build ./bookTracker.csproj -c Release --no-restore
+        run: dotnet build -c Release --no-restore
